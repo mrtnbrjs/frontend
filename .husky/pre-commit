@@ -1,0 +1,36 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo '🏗️👷 Styling, testing and building your project before committing'
+
+# Check Prettier standards
+npm run check-format ||
+(
+    echo '😥🤕 ¡Hey! El código tiene problemas en la indentación 😥🤕
+            Prettier Check Failed. Run npm run format, add changes and try commit again.';
+    false;
+)
+
+# Check ESLint Standards
+npm run check-lint ||
+(
+        echo '😤🏀👋😤¡Hey! Al parecer estas usando patrones incorrectos en el código que quieres subir, por favor asegúrate de no tener
+        este tipos de errores 😤🏀👋😤
+                ESLint Check Failed. Make the required changes listed above, add changes and try to commit again.'
+        false;
+)
+
+# Check tsconfig standards
+npm run check-types ||
+(
+    echo '❌ Estamos usando Typescript de manera incorrecta, hay que leer los warning e intentar solucionarlos. ❌
+            Are you seriously trying to write that? Make the changes required above.'
+    false;
+)
+
+# If everything passes... Now we can commit
+echo '✅✅✅... Al parecer todo luce bien... Lets go!!!. ✅✅✅'
+
+
+# If everything passes... Now we can commit
+echo '✅🎉🥳🥳 You win this time... I am committing this now. 🥳🥳🎉✅'
